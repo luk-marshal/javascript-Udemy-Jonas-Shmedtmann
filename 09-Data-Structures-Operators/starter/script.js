@@ -545,14 +545,146 @@ console.log(users[0]?.name ?? 'User array empty');
  */
 
 ////////////////////////////
-//9.114 XXX
+//9.114 Looping objects
 /*
+//Property NAMES
+const properties = Object.keys(openingHours);
+console.log(properties);
+
+let openStr = `We are open on ${properties.length} days: `;
+for (const day of properties) {
+  console.log(day);
+  openStr += `${day}, `;
+}
+console.log(openStr);
+
+//Property VALUES
+const values = Object.values(openingHours);
+console.log(values);
+
+//Object
+const entries = Object.entries(openingHours);
+console.log(entries);
+
+//[key, value]
+for (const [day, { open, close }] of entries) {
+  console.log(`On ${day} we open at ${open} and close at ${close}`);
+}
+
 
  */
 
 ////////////////////////////
-//9.115 XXX
+//9.115 Coding Challenge #3
+
+/* 
+Let's continue with our football betting app!
+
+1. Loop over the game.scored array and print each player name to the console, along with the goal number (Example: "Goal 1: Lewandowski")
+2. Use a loop to calculate the average odd and log it to the console (We already studied how to calculate averages, you can go check if you don't remember)
+3. Print the 3 odds to the console, but in a nice formatted way, exaclty like this:
+      Odd of victory Bayern Munich: 1.33
+      Odd of draw: 3.25
+      Odd of victory Borrussia Dortmund: 6.5
+Get the team names directly from the game object, don't hardcode them (except for "draw"). HINT: Note how the odds and the game objects have the same property names 😉
+
+BONUS: Create an object called 'scorers' which contains the names of the players who scored as properties, and the number of goals as the value. In this game, it will look like this:
+      {
+        Gnarby: 1,
+        Hummels: 1,
+        Lewandowski: 2
+      }
+
+GOOD LUCK 😀
+*/
 /*
+const game = {
+  team1: 'Bayern Munich',
+  team2: 'Borrussia Dortmund',
+  players: [
+    [
+      'Neuer',
+      'Pavard',
+      'Martinez',
+      'Alaba',
+      'Davies',
+      'Kimmich',
+      'Goretzka',
+      'Coman',
+      'Muller',
+      'Gnarby',
+      'Lewandowski',
+    ],
+    [
+      'Burki',
+      'Schulz',
+      'Hummels',
+      'Akanji',
+      'Hakimi',
+      'Weigl',
+      'Witsel',
+      'Hazard',
+      'Brandt',
+      'Sancho',
+      'Gotze',
+    ],
+  ],
+  score: '4:0',
+  scored: ['Lewandowski', 'Gnarby', 'Lewandowski', 'Hummels'],
+  date: 'Nov 9th, 2037',
+  odds: {
+    team1: 1.33,
+    x: 3.25,
+    team2: 6.5,
+  },
+};
+
+//1
+for (const [goalNum, player] of game.scored.entries()) {
+  console.log(`Goal ${goalNum + 1}: ${player}`);
+}
+
+//2
+let oddSum = 0;
+for (const odd of Object.values(game.odds)) {
+  // console.log(odd);
+  oddSum += odd;
+}
+// console.log(Object.values(game.odds).length);
+const avgOdd = oddSum / Object.values(game.odds).length;
+// console.log(`Avarage odd is ${avgOdd}`);
+// console.log(`Avarage odd is ${Math.round(avgOdd * 100) / 100}`);
+console.log(
+  `Avarage odd is ${Math.round((avgOdd + Number.EPSILON) * 100) / 100}`
+);
+
+//3
+for (const [team, value] of Object.entries(game.odds)) {
+  const result = team == 'x' ? 'draw' : `victory ${game[team]}`;
+  console.log(`   Odd of ${result}: ${value}`);
+}
+
+//BONUS
+const scorers = {};
+//UWAGA: nie ma potrzeby destrukturyzacji i uzywania entries
+// for (const [goalNum,player] of game.scored.entries()) {
+//   if (scorers[player]) {
+//     scorers[player] += 1;
+//   } else {
+//     scorers[player] = 1;
+//   }
+// }
+for (const player of game.scored) {
+  // if (scorers[player]) {
+  //   scorers[player] += 1;
+  // } else {
+  //   scorers[player] = 1;
+  // }
+  //UWAGA: mozna to zapisać krocej
+  scorers[player] ? scorers[player]++ : (scorers[player] = 1);
+}
+console.log(scorers);
+
 
  */
 
@@ -671,7 +803,7 @@ console.log(...question.values());
 */
 
 ////////////////////////////
-//9.120 Coding Challange #3
+//9.120 Coding Challenge #3
 /*
 // Let's continue with our football betting app! This time, we have a map called
 // 'gameEvents' (see below) with a log of the events that happened during the
@@ -734,7 +866,7 @@ for (const [min, event] of gameEvents) {
 */
 
 ////////////////////////////
-//9.120 Coding Challange #4
+//9.120 Coding Challenge #4
 /*
 // Write a program that receives a list of variable names written in underscore_case
 // and convert them to camelCase.
