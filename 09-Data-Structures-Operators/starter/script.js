@@ -13,20 +13,20 @@ const flights =
   '_Delayed_Departure;fao93766109;txl2133758440;11:25+_Arrival;bru0943384722;fao93766109;11:45+_Delayed_Arrival;hel7439299980;fao93766109;12:05+_Departure;fao93766109;lis2323639855;12:30';
 
 const weekdays = ['mon', 'tue', 'wed', 'thu', 'fri', 'sat', 'sun'];
-// const openingHours = {
-//   [weekdays[3]]: {
-//     open: 12,
-//     close: 22,
-//   },
-//   [weekdays[4]]: {
-//     open: 11,
-//     close: 23,
-//   },
-//   [weekdays[5]]: {
-//     open: 0, // Open 24 hours
-//     close: 24,
-//   },
-// };
+const openingHours = {
+  [weekdays[3]]: {
+    open: 12,
+    close: 22,
+  },
+  [weekdays[4]]: {
+    open: 11,
+    close: 23,
+  },
+  [weekdays[5]]: {
+    open: 0, // Open 24 hours
+    close: 24,
+  },
+};
 
 // Data needed for first part of the section
 const restaurant = {
@@ -36,24 +36,13 @@ const restaurant = {
   starterMenu: ['Focaccia', 'Bruschetta', 'Garlic Bread', 'Caprese Salad'],
   mainMenu: ['Pizza', 'Pasta', 'Risotto'],
 
-  order: function (starterIndex, mainIndex) {
-    return [this.starterMenu[starterIndex], this.mainMenu[mainIndex]];
-  },
-
   // ES6 enhanced object literals
-  openingHours: {
-    [weekdays[3]]: {
-      open: 12,
-      close: 22,
-    },
-    [weekdays[4]]: {
-      open: 11,
-      close: 23,
-    },
-    [weekdays[5]]: {
-      open: 0, // Open 24 hours
-      close: 24,
-    },
+  // openingHours: openingHours,
+  openingHours,
+
+  // ES6 enhanced functions
+  order(starterIndex, mainIndex) {
+    return [this.starterMenu[starterIndex], this.mainMenu[mainIndex]];
   },
 
   orderDelivery: function ({
@@ -368,6 +357,7 @@ TEST DATA FOR 6: Use players 'Davies', 'Muller', 'Lewandowski' and 'Kimmich'. Th
 
 GOOD LUCK 😀
 */
+/*
 const game = {
   team1: 'Bayern Munich',
   team2: 'Borrussia Dortmund',
@@ -486,11 +476,85 @@ printGoals(...game.scored);
 //7
 team1 < team2 && console.log('Team 1 is more likely to win');
 team1 > team2 && console.log('Team 2 is more likely to win');
-/* */
+ */
 
 ////////////////////////////
-//9.111
-/* */
+//9.111 Looping arrays
+/*
+const menu = [...restaurant.mainMenu, ...restaurant.starterMenu];
+for (const item of menu) console.log(item);
+// for (const item of menu.entries()) {
+//   console.log(`${item[0] + 1}: ${item[1]}`);
+// }
+for (const [i, el] of menu.entries()) {
+  console.log(`${i + 1}: ${el}`);
+}
+// console.log(menu.entries());
+// console.log([...menu.entries()]);
+
+ */
+
+////////////////////////////
+//9.112 Enhanced object literals
+/*
+
+ */
+
+////////////////////////////
+//9.113 optional chaining
+/*
+if (console.log(restaurant.openingHours.mon))
+  console.log(restaurant.openingHours.mon.open);
+if (console.log(restaurant.openingHours && restaurant.openingHours.mon))
+  console.log(restaurant.openingHours.mon.open);
+
+//With optionam chaining
+console.log(restaurant.openingHours.mon?.open);
+console.log(restaurant.openingHours?.mon?.open);
+
+const days = ['mon', 'tue', 'wed', 'thu', 'fri', 'sat', 'sun'];
+for (const day of days) {
+  console.log(day);
+  // const open = restaurant.openingHours[day]?.open || 'clsed';
+  const open = restaurant.openingHours[day]?.open ?? 'clsed';
+  console.log(`on ${day} we open at ${open}`);
+}
+
+//Methods
+console.log(restaurant.order?.(0, 1) ?? 'Method does not exist');
+console.log(restaurant.orderRisotto?.(0, 1) ?? 'Method does not exist');
+
+//Arrays
+const users = [
+  {
+    name: 'Jonas',
+    email: 'hello@jonas.com',
+  },
+];
+// const users = [];
+
+//old way
+if (users.length > 0) console.log(users[0].name);
+else console.log('User array empty');
+
+//new way
+console.log(users[0]?.name ?? 'User array empty');
+
+
+
+ */
+
+////////////////////////////
+//9.114 XXX
+/*
+
+ */
+
+////////////////////////////
+//9.115 XXX
+/*
+
+ */
 
 ////////////////////////////
 //9.116 SETS
