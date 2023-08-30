@@ -986,7 +986,7 @@ checkBaggage('Got some snacks and a gun for protection');
 
 ////////////////////////////
 //9.123. Working With Strings - Part 3
-
+/*
 ///split and join
 console.log('a+very+nice+string'.split('+'));
 console.log('Lukasz Marszalek'.split(' '));
@@ -1012,10 +1012,10 @@ const capitalizeName = function (name) {
   }
 };
 
-// console.log(capitalizeName('jessica ann smith davis'));
-// console.log(capitalizeName('joNas ShMeDtMann'));
-// console.log(capitalizeName('LUKASZ MAREK MARSZALEK'));
-// console.log(capitalizeName(1234));
+console.log(capitalizeName('jessica ann smith davis'));
+console.log(capitalizeName('joNas ShMeDtMann'));
+console.log(capitalizeName('LUKASZ MAREK MARSZALEK'));
+console.log(capitalizeName(1234));
 
 const capitalizeNameSpecial = function (
   name,
@@ -1067,6 +1067,7 @@ const capitalizeNameSpecial = function (
         } else if (notCapitalizedWords.includes(nameWord)) {
           //'ter' przyimek z małą literą zostaje bez zmian
           namesUpper.push(nameWord);
+          // console.log(namesUpper.join(' '));
           //'ter'
         } else if (i > 0 && i < secondSplitLength) {
           //jeśli imię bądz nazwisko jest wieloczłonowe
@@ -1086,7 +1087,6 @@ const capitalizeNameSpecial = function (
         }
       }
     }
-    // console.log(namesUpper.join(' '));
     return namesUpper.join(' ');
   } catch (e) {
     if (e instanceof TypeError) {
@@ -1135,7 +1135,36 @@ console.log(
 );
 console.log(capitalizeNameSpecial(1234));
 
-/*
+/////
+//padding
+const maskCreditCard = function (number) {
+  const str = number + '';
+  const last = str.slice(-4);
+  return last.padStart(str.length, '*');
+};
+
+console.log(maskCreditCard(11237981238));
+console.log(maskCreditCard(10598645112323));
+console.log(maskCreditCard('10598645112323'));
+
+/////
+//repeat
+const message2 = 'Bad wether. All departures delayed....';
+console.log(message2.repeat(5));
+
+const planesInLine = function (n) {
+  console.log(`There are ${n} planes in line ${'✈️'.repeat(n)}`);
+};
+
+planesInLine(1);
+planesInLine(2);
+planesInLine(3);
+planesInLine(4);
+//
+//
+//
+
+
  */
 
 ////////////////////////////
