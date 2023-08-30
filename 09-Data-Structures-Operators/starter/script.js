@@ -1204,10 +1204,10 @@ delayed_departure
 // GOOD LUCK 😀
 */
 
-/*
 document.body.append(document.createElement('textarea'));
 document.body.append(document.createElement('button'));
 
+/*
 const textArea = document.querySelector('textarea');
 const button = document.querySelector('button');
 
@@ -1250,3 +1250,42 @@ button.addEventListener('click', function () {
   }
 });
 */
+
+const buttonEl = document.querySelector('button');
+const inputEl = document.querySelector('textarea');
+
+const convertText = function () {
+  const lines = inputEl.value.toLowerCase().replaceAll(' ', '').split('\n');
+
+  for (const [lineIndex, line] of lines.entries()) {
+    const words = line.split('_');
+    let output = '';
+    for (const [wordIndex, word] of words.entries()) {
+      const w = wordIndex > 0 ? word[0].toUpperCase() + word.slice(1) : word;
+      output += w;
+    }
+    console.log(`${output} ${'\t'.repeat(2)} ${'✅'.repeat(lineIndex + 1)}`);
+  }
+};
+
+const convertText2 = function () {
+  const lines = inputEl.value.toLowerCase().split('\n');
+  let output = '';
+
+  for (const [lineIndex, line] of lines.entries()) {
+    const [first, second] = line.trim().split('_');
+    output = `${first}${second.replace(second[0], second[0].toUpperCase())}`;
+    console.log(`${output.padEnd(20)} ${'✅'.repeat(lineIndex + 1)}`);
+  }
+};
+
+buttonEl.addEventListener('click', convertText2);
+
+//DEBUG:
+// inputEl.value = `underscore_case
+//   first_name
+// Some_Variable
+//   calculate_AGE
+// delayed_departure`;
+// // console.log(inputEl.value);
+// convertText2();
