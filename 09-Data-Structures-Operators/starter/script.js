@@ -820,7 +820,6 @@ console.log(...question.values());
 // whether it's in the first half or second half (after 45 min) of the game, like this:
 // [FIRST HALF] 17: ⚽ GOAL
 
-
 const gameEvents = new Map([
   [17, '⚽ GOAL'],
   [36, '� Substitution'],
@@ -834,6 +833,10 @@ const gameEvents = new Map([
   [80, '⚽ GOAL'],
   [92, '� Yellow card'],
 ]);
+
+
+
+
 
 //1
 // const events = new Set([...gameEvents.values()]); //Żle
@@ -856,14 +859,173 @@ console.log(
 );
 
 //4
+// for (const [min, event] of gameEvents) {
+//   if (min < 45) {
+//     console.log(`[FIRST HALF] ${min}: ${event}`);
+//   } else {
+//     console.log(`[SECOND HALF] ${min}: ${event}`);
+//   }
+// }
+
 for (const [min, event] of gameEvents) {
-  if (min < 45) {
-    console.log(`[FIRST HALF] ${min}: ${event}`);
-  } else {
-    console.log(`[SECOND HALF] ${min}: ${event}`);
-  }
+  console.log(`[${min <= 45 ? 'FIRST HALF' : 'SECOND HALF'}] ${min}: ${event}`);
 }
 */
+
+////////////////////////////
+//9.121. Working With Strings - Part 1
+/*
+const airline = 'TAP Air Portugal';
+const plane = 'A320';
+
+console.log(plane[0]);
+console.log(plane[1]);
+console.log(plane[2]);
+console.log('B737'[0]);
+
+console.log(airline.length);
+console.log('B737'.length);
+
+console.log(airline.indexOf('r'));
+console.log(airline.lastIndexOf('r'));
+console.log(airline.indexOf('Portugal'));
+console.log(airline.indexOf('portugal'));
+
+console.log(airline.slice(4));
+//UWAGA: metoda slice zwraca wartości przed wartością wskazaną pod pozycją końcową BEZ NIEJ
+console.log(airline.slice(4, 7));
+console.log('abcdefghijklmnoprstuwxyz'.slice(4));
+
+console.log(airline.slice(0, airline.indexOf(' '))); //zacznij od początku i zwróć do pozycji w której jest spacja BEZ NIEJ(spacji)
+console.log(airline.slice(airline.lastIndexOf(' ') + 1)); //zacznij od pozycji w której jest spacja i przesuń o 1 i zwróc do końca
+
+console.log(airline.slice(-2));
+console.log(airline.slice(1, -1));
+
+const checkMiddleSeat = function (seat) {
+  //B and E are middle seat
+  const lastIndex = seat.slice(-1);
+  const seatType =
+    lastIndex === 'B' || lastIndex === 'E' ? 'Middle' : 'Window 🪟';
+  console.log(`${seat} is ${seatType}`);
+};
+
+checkMiddleSeat('12A');
+checkMiddleSeat('12B');
+checkMiddleSeat('12C');
+checkMiddleSeat('12D');
+checkMiddleSeat('12E');
+ */
+
+////////////////////////////
+//9.122. Working With Strings - Part 2
+/*
+const airline = 'TAP Air Portugal';
+console.log(airline.toUpperCase());
+console.log(airline.toLowerCase());
+
+//Fix capitalization in name
+const passanger = 'jONaS'; //Jonas
+const passangerLower = passanger.toLowerCase();
+const passangerCorrect =
+  passangerLower[0].toUpperCase() + passangerLower.slice(1);
+console.log(passanger, passangerLower, passangerCorrect);
+
+//comparing emails
+const email = 'hello@jonas.io';
+const loginEmail = ' Hello@Jonas.Io \n';
+console.log(email === loginEmail);
+
+const lowerEmail = loginEmail.toLowerCase();
+const trimmedEmail = lowerEmail.trim();
+console.log(trimmedEmail);
+
+const normalizedEmail = loginEmail.toLowerCase().trim();
+console.log(normalizedEmail);
+console.log(email === normalizedEmail);
+
+//repalcing
+const priceGB = '288,97£';
+const priceUS = priceGB.replace('£', '$').replace(',', '.');
+console.log(priceGB);
+console.log(priceUS);
+
+const announcements = `All passengers come to boarding door 23. Boarding door 23!`;
+console.log(announcements.replace('door', 'gate'));
+//UWAGA: Działa od niedawna
+console.log(announcements.replaceAll('door', 'gate'));
+
+//UWAGA: Regular expression
+console.log(announcements.replace(/door/g, 'gate'));
+
+const plane = 'Airbus A320neo';
+console.log(plane.includes('A320'));
+console.log(plane.includes('Boeing'));
+console.log(plane.includes('Airb'));
+
+if (plane.startsWith('Airbus') && plane.endsWith('neo')) {
+  console.log('Part of the NEW Airbus family');
+}
+
+//practice excercise
+const checkBaggage = function (items) {
+  const baggage = items.toLowerCase();
+  if (baggage.includes('knife') || baggage.includes('gun')) {
+    console.log('You are NOT allowed on board');
+  } else {
+    console.log('Welcome aboard');
+  }
+};
+
+checkBaggage('I have a laptop, some Food and a pocket Knife');
+checkBaggage('Socks and camera');
+checkBaggage('Got some snacks and a gun for protection');
+
+
+ */
+
+////////////////////////////
+//9.123. Working With Strings - Part 3
+
+///split and join
+console.log('a+very+nice+string'.split('+'));
+console.log('Lukasz Marszalek'.split(' '));
+
+const [firstName, lastName] = 'Lukasz Marszalek'.split(' ');
+console.log(firstName, lastName);
+
+const nemName = ['Mr.', firstName, lastName.toUpperCase()].join(' ');
+console.log(nemName);
+
+//
+const capitalizeName = function (name) {
+  const namesSplit = name.toLowerCase().split(' ');
+  const namesUpper = [];
+
+  for (const nameWord of namesSplit) {
+    namesUpper.push(nameWord[0].toUpperCase() + nameWord.slice(1));
+  }
+  return namesUpper.join(' ');
+};
+
+const rodzajniki = [
+  'von',
+  'van',
+  //'de',
+  'le',
+  'der',
+  'den',
+  'die',
+  'di',
+  'ter',
+  'z',
+];
+
+console.log(capitalizeName('jessica ann smith davis'));
+console.log(capitalizeName('joNas ShMeDtMann'));
+console.log(capitalizeName('LUKASZ MAREK MARSZALEK'));
+/*
+ */
 
 ////////////////////////////
 //9.120 Coding Challenge #4
