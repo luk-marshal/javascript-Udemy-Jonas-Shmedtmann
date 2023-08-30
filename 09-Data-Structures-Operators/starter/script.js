@@ -999,13 +999,103 @@ console.log(nemName);
 
 //
 const capitalizeName = function (name) {
-  const namesSplit = name.toLowerCase().split(' ');
-  const namesUpper = [];
+  try {
+    const namesSplit = name.toLowerCase().split(' ');
+    const namesUpper = [];
 
-  for (const nameWord of namesSplit) {
-    namesUpper.push(nameWord[0].toUpperCase() + nameWord.slice(1));
+    for (const nameWord of namesSplit) {
+      namesUpper.push(nameWord[0].toUpperCase() + nameWord.slice(1));
+    }
+    return namesUpper.join(' ');
+  } catch (e) {
+    if (e instanceof TypeError) console.error(`${name} is not a typeof string`);
   }
-  return namesUpper.join(' ');
+};
+
+// console.log(capitalizeName('jessica ann smith davis'));
+// console.log(capitalizeName('joNas ShMeDtMann'));
+// console.log(capitalizeName('LUKASZ MAREK MARSZALEK'));
+// console.log(capitalizeName(1234));
+
+const capitalizeNameSpecial = function (
+  name,
+  notCapitalizedWords = [
+    'von',
+    'van',
+    'de',
+    'le',
+    'der',
+    'den',
+    'die',
+    'di',
+    'ter',
+    'z',
+  ]
+) {
+  try {
+    const namesUpper = [];
+    let current = '';
+
+    //'marc-andré-felIPe-juan ter stegen von der gutierrez de silva-garcia'
+    const namesFirstSplit = name.toLowerCase().split(' ');
+    //['marc-andré-felipe-juan', 'ter', 'stegen', 'von', 'der', 'gutierrez', 'de', 'silva-garcia']
+    const firstSplitLength = namesFirstSplit.length;
+    for (const namePart of namesFirstSplit) {
+      //'marc-andré-felipe-juan'
+      const namesSecondSplit = namePart.split('-');
+      //['marc', 'andré', 'felipe', 'juan']
+      const secondSplitLength = namesSecondSplit.length;
+      for (const [i, nameWord] of namesSecondSplit.entries()) {
+        if (nameWord.includes(`'`)) {
+          //'d'alembert'
+          const ind = nameWord.indexOf(`'`);
+          current =
+            nameWord.slice(0, ind + 1) +
+            nameWord[ind + 1].toUpperCase() +
+            nameWord.slice(ind + 2);
+          namesUpper.push(current);
+          //'d'Alembert'
+        } else if (nameWord.includes(`’`)) {
+          //'d’alembert'
+          const ind = nameWord.indexOf(`’`);
+          current =
+            nameWord.slice(0, ind + 1) +
+            nameWord[ind + 1].toUpperCase() +
+            nameWord.slice(ind + 2);
+          namesUpper.push(current);
+          //'d’Alembert'
+        } else if (notCapitalizedWords.includes(nameWord)) {
+          //'ter' przyimek z małą literą zostaje bez zmian
+          namesUpper.push(nameWord);
+          //'ter'
+        } else if (i > 0 && i < secondSplitLength) {
+          //jeśli imię bądz nazwisko jest wieloczłonowe
+          const prev = namesUpper.pop();
+          //prev = 'Marc'
+          // current = prev + '-' + nameWord[0].toUpperCase() + nameWord.slice(1);
+          //Marc-Andre
+          current = nameWord[0].toUpperCase() + nameWord.slice(1);
+          //Andre
+          namesUpper.push([prev, current].join('-'));
+          //Marc-Andre
+        } else {
+          current = nameWord[0].toUpperCase() + nameWord.slice(1);
+          // namesUpper.push(nameWord[0].toUpperCase() + nameWord.slice(1));
+          namesUpper.push(current);
+          //Andre
+        }
+      }
+    }
+    // console.log(namesUpper.join(' '));
+    return namesUpper.join(' ');
+  } catch (e) {
+    if (e instanceof TypeError) {
+      console.error(`${name} is not a typeof string`);
+      // console.log(e);
+    } else {
+      throw e; // re-throw the error unchanged
+    }
+  }
 };
 
 const rodzajniki = [
@@ -1021,9 +1111,30 @@ const rodzajniki = [
   'z',
 ];
 
-console.log(capitalizeName('jessica ann smith davis'));
-console.log(capitalizeName('joNas ShMeDtMann'));
-console.log(capitalizeName('LUKASZ MAREK MARSZALEK'));
+console.log('--------');
+console.log(capitalizeNameSpecial('jean d’alembert'));
+console.log(capitalizeNameSpecial(`jean d'alembert`));
+console.log(capitalizeNameSpecial('jessica ann smith davis'));
+console.log(capitalizeNameSpecial('joNas ShMeDtMann'));
+console.log(capitalizeNameSpecial('LUKASZ MAREK MARSZALEK'));
+console.log(capitalizeNameSpecial('maria teresa garcía ramírez de arroyo'));
+console.log(capitalizeNameSpecial('maX von sydow', 'von'));
+console.log(
+  capitalizeNameSpecial(
+    'marc-andré-felIPe-juan ter stegen von der gutierrez de silva-garcia'
+  )
+);
+console.log(
+  capitalizeNameSpecial(
+    'marc-andré-felIPe-juan ter stegen von der gutierrez de silva-garcia',
+    rodzajniki
+  )
+);
+console.log(
+  capitalizeNameSpecial('iga-maria-patrycja swiatek-piatek z kowalskich')
+);
+console.log(capitalizeNameSpecial(1234));
+
 /*
  */
 
