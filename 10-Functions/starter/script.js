@@ -1,132 +1,17 @@
 'use strict';
 
+/////
+//UWAGA: ONLY IMPORTANT NOTES
+
 /*
-const bookings = [];
-
-const createBooking = function (
-  flightNum,
-  numPassengers = 1,
-  price = 199 * numPassengers
-) {
-  //ES5
-  //numPassengers = numPassengers || 1;
-  //price = price || 199;
-
-  //ES6
-  //zapisane w nawiasie w definicji funkcji
-
-  const booking = {
-    flightNum,
-    numPassengers,
-    price,
-  };
-  console.log(booking);
-  bookings.push(booking);
+const createBooking = function (a, b, c) {
+  console.log(a, b, c);
 };
 
-createBooking('LH111');
-createBooking('LH222', 2, 800);
-createBooking('LH333', 2);
-createBooking('LH444', 5);
-// createBooking('LH555', , 800);  //nie można tak pomijać
+//UWAGA: nie można tak pomijać
+// createBooking('LH555', , 800);
+//UWAGA: zamiast tego stosujemy undefined
 createBooking('LH555', undefined, 1000);
-
-*/
-
-/*
-const flight = 'LH234';
-const jonas = {
-  name: 'Jonas Schmedtmann',
-  passport: 123151235123,
-};
-
-const checkIn = function (flightNum, passenger) {
-  flightNum = 'LH999';
-  passenger.name = 'Mr.' + passenger.name;
-
-  if (passenger.passport === 123151235123) {
-    alert('Checked in');
-  } else {
-    alert('Wrong passport');
-  }
-  //   console.log(passenger.passport);
-};
-
-checkIn(flight, jonas);
-console.log(flight);
-console.log(jonas);
-
-const newPassport = function (person) {
-  person.passport = Math.trunc(Math.random(100000000000));
-};
-
-newPassport(jonas);
-console.log(jonas);
-checkIn(flight, jonas);
-*/
-
-/*
-// Functions Accepting Callback Functions
-const oneWord = function (str) {
-  return str.replace(/ /g, '').toLowerCase();
-};
-
-const upperFirstWord = function (str) {
-  const [first, ...others] = str.split(' ');
-  return [first.toUpperCase(), ...others].join(' ');
-};
-
-// Higher-order function
-const transformer = function (str, fn) {
-  console.log(`Original string: ${str}`);
-  console.log(`Transformed string: ${fn(str)}`);
-
-  console.log(`Transformed by: ${fn.name}`);
-};
-
-transformer('JavaScript is the best!', upperFirstWord);
-transformer('JavaScript is the best!', oneWord);
-
-// JS uses callbacks all the time
-const high5 = function () {
-  console.log('👋');
-};
-document.body.addEventListener('click', high5);
-['Jonas', 'Martha', 'Adam'].forEach(high5);
-
-
- */
-
-/*
-//Returning a function
-const greet = function (greeting) {
-  return function (name) {
-    console.log(`${greeting} ${name}`);
-  };
-};
-
-const greeterHey = greet('Hey');
-greeterHey('Jonas');
-greeterHey('Steven');
-
-greet('Hello')('Lukas');
-
-//Using arrows
-console.log('//Using arrows');
-// const greetArrow = greeting => {
-//   return name => console.log(`${greeting} ${name}`);
-// };
-
-const greetArrow = greeting => name => console.log(`${greeting} ${name}`);
-
-const greeterArrowHey = greet('Hey');
-greeterArrowHey('Jonas');
-greeterArrowHey('Steven');
-
-greetArrow('Hello')('Lukas');
-*/
-
-/*
 
 const lufthansa = {
   airline: 'Lufthansa',
@@ -156,10 +41,10 @@ const eurowings = {
 
 const book = lufthansa.book;
 
-//Does NOT work!
+//UWAGA: Nie zadziała poniewaz funkcja nie ma swojego 'this' keyword
 // book(23, 'Sara Williams');
 
-//Call method
+//UWAGA: Dlatego wykorzystujemy metodę call, która za pierwszy argument przyjmuje odnościk do obiektu, do którego będzie pozniej odnosic 'this' keyword
 book.call(eurowings, 23, 'Sara Williams');
 console.log(eurowings);
 
@@ -174,24 +59,29 @@ const swiss = {
 
 book.call(swiss, 583, 'Marry Cooper');
 
-//Aply method
+//UWAGA: Metoda aply działa tak samo tylko przyjmuje argumenty jako array
 const flightData = [538, 'George Cooper'];
 book.apply(swiss, flightData);
 console.log(swiss);
 
-book.call(swiss, ...flightData); //robi to samo. Bardziej nowoczesne podejście
+//robi to samo. Bardziej nowoczesne podejście
+//UWAGA: //UWAGA: TAK ROBIMY a NIE tak jak u góry
+book.call(swiss, ...flightData);
 console.log(swiss);
 
 //Bind method
 // book.call(eurowings, 23, 'Sara Williams');
-
+//UWAGA: zamiast robić call mozemy zrobic bind i wykorzystywać metodę częsciej
 const bookEW = book.bind(eurowings);
-const bookLH = book.bind(eurowings);
+//UWAGA: bindujemy bookEW jako book wewnątrz objektu eurowings
+//UWAGA: //UWAGA: book wewnątrzbook.bind(xxx) odnosi się do const book = lufthansa.book; które przypisuje dopiero konkretną fukcję
+
+const bookLH = book.bind(lufthansa);
 const bookLX = book.bind(swiss);
 
 bookEW(23, 'Steven Williams');
 console.log(eurowings);
-
+//UWAGA: podobnie jak wyzej bindujemy bookEW23 do objektu euriowings ale podojąc dodatkowo argument dla lotu 23
 const bookEW23 = book.bind(eurowings, 23);
 
 bookEW23('Jonas Schmedtmann');
@@ -209,6 +99,10 @@ lufthansa.buyPlane = function () {
   console.log(this.planes);
 };
 
+//UWAGA: takie zastosowanie jak ponizej jest bledne, poniewaz this keyword odnosi się do przycisku buy a nie do objektu lufthansa
+document.querySelector('.buy').addEventListener('click', lufthansa.buyPlane);
+
+//UWAGA: //UWAGA: //UWAGA: w tym przypadku stosujemy bind
 document
   .querySelector('.buy')
   .addEventListener('click', lufthansa.buyPlane.bind(lufthansa));
@@ -232,6 +126,8 @@ console.log(addTaxRate(0.23)(100));
 
 const addVAT2 = addTaxRate(0.23);
 console.log(addVAT2(200));
+ 
+
 */
 
 ///////////////////////////////////////
@@ -276,12 +172,15 @@ BONUS TEST DATA 1: [5, 2, 3]
 BONUS TEST DATA 2: [1, 5, 3, 9, 6, 1]
 
 GOOD LUCK 😀
+*/
 
+/*
 const poll = {
   question: 'What is your favourite programming language?',
   options: ['0: JavaScript', '1: Python', '2: Rust', '3:C++'],
   // This generates [0, 0, 0, 0]. More in the next section!
   answers: new Array(4).fill(0),
+
   registerNewAnswer() {
     const answer = Number(
       // prompt(`
@@ -323,8 +222,8 @@ const poll = {
 };
 
 document
-  .querySelector('.poll')
-  .addEventListener('click', poll.registerNewAnswer.bind(poll));
+.querySelector('.poll')
+.addEventListener('click', poll.registerNewAnswer.bind(poll));
 
 const test1 = [5, 2, 3];
 const test2 = {
@@ -336,12 +235,11 @@ poll.displayResults.call({ answers: [5, 2, 3] }, 'string');
 
 poll.displayResults.call(test2);
 poll.displayResults.call(test2, 'string');
-
 */
 
-/*
 //////////////
 //10.136. Immediately Invoked Function Expressions (IIFE)
+/*
 
 const runOnce = function () {
   console.log('This function never run again');
@@ -369,6 +267,8 @@ console.log(isPrivate);   //NIE zadziała ponieważ użyliśmy const. const i le
 
 */
 
+//////////////
+//10.137. Closures
 /*
 
 const secureBooking = function () {
@@ -437,9 +337,10 @@ const boardPassengers = function (n, wait) {
 boardPassengers(180, 3);
  */
 
-/*
 /////////////////////////
-Coding Challenge #2 
+//Coding Challenge #2
+
+/*
 This is more of a thinking challenge than a coding challenge 🤓 
 Your tasks: 
 1. Take the IIFE below and at the end of the function, attach an event listener that 
@@ -454,7 +355,15 @@ and what that means for the variables involved in this example.
  
  
 GOOD LUCK 😀
- */
+
+(function () {
+  const header = document.querySelector('h1');
+  header.style.color = 'red';
+  document
+    .querySelector('body')
+    .addEventListener('click', () => (header.style.color = 'blue'));
+})();
+*/
 
 /*
 (function () {
